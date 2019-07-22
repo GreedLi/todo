@@ -10,9 +10,10 @@
 				<input id="toggle-all" class="toggle-all" type="checkbox">
 				<label for="toggle-all">Mark all as complete</label>
 				<ul class="todo-list">
-					<li v-for="(item,index) in sort" :key="item.id" @dblclick="delTodo(index)">
+					<li v-for="item in list" :key="item.id" @dblclick="delTodo">
             <div class="view">
                 <input class="toggle" type="checkbox" :checked="item.completed" @change="(event) => { changeState(item.id, event); }">
+                <!-- <input class="toggle" type="checkbox" :checked="list.completed" @click="changeState($index)"> -->
                 <label>{{item.name}}</label>
                 <label>{{item.time}}</label>
             </div>
@@ -34,16 +35,7 @@ export default {
       count: 0,
       list: [],
       completed:false,
-    }
-  },
-  computed: {
-    sort(){
-      return this.list.sort((a,b) => {
-        if(a.completed === b.completed){
-          return a.time - b.time
-        }
-        return a.completed ? 1:-1
-      })
+      // clickId = -1
     }
   },
   watch:{
@@ -54,7 +46,7 @@ export default {
         localStorage.setItem('list',str)
         }
       },
-      deep:true,
+      deep:true
     },
     count: {
       handler(v){
@@ -77,21 +69,23 @@ export default {
         name: this.todoName,
         id: new Date().getTime(),
         // id: moment().format('MMMM Do YYYY, h:mm:ss a'),
-        // time: moment(new Date()).add('year',0).format("YYYY-MM-DD,h:mm:ss a"),
-        time: new Date().getTime(),
+        time: moment(new Date()).add('year',0).format("YYYY-MM-DD,h:mm:ss a"),
         completed: false
       })
       this.todoName = ''
       this.count++
     },
-    delTodo(index){
-      this.list.splice(index,1)
+    delTodo(index) {
+      this.list.splice(index, 1)
       this.count--
     },
     changeState(id, event) {
       const item = this.list.find(item => item.id === id);
       item.completed = !item.completed
     },
+    // changeState(index) {
+    //   this.list[index].completed = !this.list[index].completed;
+    // },
   },
 }
 </script>
