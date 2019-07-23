@@ -14,7 +14,7 @@
             <div class="view">
                 <input class="toggle" type="checkbox" :checked="item.completed" @change="(event) => { changeState(item.id, event); }">
                 <label>{{item.name}}</label>
-                <label>{{item.time}}</label>
+                <label>{{item.time | capitalize}}</label>
             </div>
             <!-- <input class="edit" :value="item.name" @keyup.enter="updateTodo(item.id,$event)"> -->
 					</li>
@@ -34,6 +34,11 @@ export default {
       count: 0,
       list: [],
       completed:false,
+    }
+  },
+  filters: {
+    capitalize:  (v)=> {
+      return moment(v).format("YYYY-MM-DD,h:mm:ss a")
     }
   },
   computed: {
@@ -70,19 +75,21 @@ export default {
     var b = localStorage.getItem('list')
     var c = JSON.parse(b)
     this.list = c
+    // var k = c.map((c)=>{
+    //   return c.time
+    // })
   },
   methods: {
     addTodo() {
       this.list.push({
         name: this.todoName,
         id: new Date().getTime(),
-        // id: moment().format('MMMM Do YYYY, h:mm:ss a'),
-        // time: moment(new Date()).add('year',0).format("YYYY-MM-DD,h:mm:ss a"),
         time: new Date().getTime(),
         completed: false
       })
       this.todoName = ''
       this.count++
+      console.log(this.time,'121');
     },
     delTodo(index){
       this.list.splice(index,1)
