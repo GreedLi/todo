@@ -10,7 +10,7 @@
 				<input id="toggle-all" class="toggle-all" type="checkbox">
 				<label for="toggle-all">Mark all as complete</label>
 				<ul class="todo-list">
-					<li v-for="(item,index) in sort" :key="item.id" @dblclick="delTodo(index)">
+					<li v-for="(item,index) in slice" :key="item.id" @dblclick="delTodo(index)">
             <div class="view">
                 <input class="toggle" type="checkbox" :checked="item.completed" @change="(event) => { changeState(item.id, event); }">
                 <label>{{item.name}}</label>
@@ -20,6 +20,13 @@
 					</li>
 				</ul>
 			</section>
+      <footer>
+        <div class="block">
+          <div @click="prev">上一页</div>
+          <input type="text" v-model="pageSize">
+          <div @click="next">下一页</div>
+        </div>
+      </footer>
 		</section>
 </div>
 </template>
@@ -34,6 +41,8 @@ export default {
       count: 0,
       list: [],
       completed:false,
+      pageSize: 2,
+      page :1,
     }
   },
   filters: {
@@ -49,6 +58,9 @@ export default {
         }
         return a.completed ? 1:-1
       })
+    },
+    slice(){
+      return this.sort.slice((this.page-1)*this.pageSize,this.page*this.pageSize)
     }
   },
   watch:{
@@ -89,7 +101,6 @@ export default {
       })
       this.todoName = ''
       this.count++
-      console.log(this.time,'121');
     },
     delTodo(index){
       this.list.splice(index,1)
@@ -98,6 +109,21 @@ export default {
     changeState(id, event) {
       const item = this.list.find(item => item.id === id);
       item.completed = !item.completed
+    },
+    prev(){
+      if (this.page>1) {
+        this.page--
+      }
+      console.log(this.page,'111');
+    },
+    next(){
+      const total = this.list.length;
+      const totalPage = Math.ceil(total/this.pageSize);
+      console.log(this.page,totalPage,'222');
+      if (this.page < totalPage) {
+         this.page++
+      }
+      // console.log(totalPage,'222');
     },
   },
 }
@@ -109,5 +135,12 @@ export default {
   height: 50px;
   line-height: 50px;
   padding: 0px 10px 0 10px;
+}
+.block{
+  display: flex;
+  justify-content: space-between;
+  height: 50px;
+  line-height: 50px;
+  padding: 0px 5px 0 5px;
 }
 </style>
