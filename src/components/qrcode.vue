@@ -1,5 +1,12 @@
+<!--
+ * @Description: Description
+ * @Author: Li Zhenxing
+ * @Date: 2020-08-10 19:32:19
+ * @LastEditors: Li Zhenxing
+ * @LastEditTime: 2020-10-27 17:13:06
+-->
 <template>
-  <div>
+  <div class="datetime">
 <el-form-item label="日报日期" prop="dailyDate">
     <el-date-picker
         v-model="artcleForm.dailyDate"
