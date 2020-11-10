@@ -28,7 +28,9 @@ export default {
 
 <style scoped>
 .container{
-  padding-left: 500px;
+  width: 200px;
+  height: 485px;
+  margin: 0 auto;
 }
 .unifyImg {
   width: 200px;
