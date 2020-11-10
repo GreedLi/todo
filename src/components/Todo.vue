@@ -1,9 +1,10 @@
+
 <template>
   <div class="container">
       <img class="unifyImg" v-if="unify" src="../assets/77f600ca25bf43f444be2cab3371489.jpg" alt="" />
-      <div class="group"  @click="click">
-        <div class="leftPic"  :class="{'left':animation}"   alt=""></div>
-        <div class="rightPic" :class="{'right':animation}"   alt=""></div>
+      <div class="group"  @click="unify=false">
+        <div class="leftPic"  :class="{'left':!unify}"></div>
+        <div class="rightPic" :class="{'right':!unify}"></div>
       </div>
   </div>
 </template>
@@ -13,15 +14,10 @@ export default {
   data() {
     return {
       unify:true,
-      animation:false
     }
   },
   created() {},
   methods: {
-    click() {
-      this.animation = true
-      this.unify=false
-    },
   },
 }
 </script>
